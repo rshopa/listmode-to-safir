@@ -12,7 +12,7 @@ $ stir_write_pgm --orientation c --slice_index 122 image_c.pgm reconstructed_ima
 * **lm_to_projdata.par** - parameters for STIR's **lm_to_projdata** command
 * **listmode_input_JPET_SAFIR.par** - parameters for SAFIR
 * **7mm_x10y0z0.clm.safir** - MUPET file generated from list mode
-* **crystal_map_jpet.txt - crystal map for SAFIR usage
+* **crystal_map_jpet.txt** - crystal map for SAFIR usage
 * **JPET_test_file.hs, JPET_test_file.s** - "empty" sinogram (with scanner parameters in header)
 * **1mm_source_f1g1d0b0.hs, 1mm_source_f1g1d0b0.s** - names for generated sinogram (not presented)
 * **FBP3DRP.par** - reconstruction parameters
