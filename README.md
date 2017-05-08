@@ -23,7 +23,7 @@ This will compile two bash executables:
 #### Example of usage 
 (requires **JPETGeometry.par** – file containing J-PET geometry parameters.):
 ```
-$ cd ..
-$ GenerateCrystalMapJPET -p JPETGeometry.par -o crystal_map_jpet.txt
-$ ConvertToMUPET -i PSF_384strips_x10_y0_z0 -p JPETGeometry.par -o output_x10y0z0.clm.safir
+$ cd ../input
+$ GenerateCrystalMapJPET -p JPETGeometry.par -o ../crystal_map_jpet.txt
+$ ConvertToMUPET -i PSF_384strips_x10_y0_z0 -p JPETGeometry.par -o ../output_x10y0z0.clm.safir
 ```
