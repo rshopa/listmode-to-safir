@@ -9,7 +9,7 @@ This implementation concerns data, simulated in [GATE](http://www.opengatecollab
 
 #### Simple build:
 ```
-$ cd /directory-with-repository-files/
+$ cd /directory-with-repository-files/src/
 $ mkdir -p build
 $ cd build
 $ cmake ../
@@ -23,7 +23,7 @@ This will compile two bash executables:
 #### Example of usage 
 (requires **JPETGeometry.par** – file containing J-PET geometry parameters.):
 ```
-$ cd ../input
+$ cd ../../input
 $ GenerateCrystalMapJPET -p JPETGeometry.par -o ../crystal_map_jpet.txt
 $ ConvertToMUPET -i PSF_384strips_x10_y0_z0 -p JPETGeometry.par -o ../output_x10y0z0.clm.safir
 ```
