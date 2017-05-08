@@ -1,0 +1,6 @@
+CListModeDataSAFIR Parameters:=
+	listmode data filename:= 7mm_x10y0z0.clm.safir
+        crystal map filename:= crystal_map_jpet.txt
+	template projection data filename:= JPET_test_file.hs
+END CListModeDataSAFIR Parameters:=
+
