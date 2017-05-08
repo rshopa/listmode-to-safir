@@ -17,4 +17,4 @@ $ stir_write_pgm --orientation c --slice_index 122 image_c.pgm reconstructed_ima
 * **1mm_source_f1g1d0b0.hs, 1mm_source_f1g1d0b0.s** - names for generated sinogram (not presented)
 * **FBP3DRP.par** - reconstruction parameters
 * **reconstructed_image.ahv, reconstructed_image.hv, reconstructed_image.v** - reconstructed image (not present)
-* **image_t.pgm, image_s.pgm, image_c.pgm** - images in XY, YZ and XZ cuts, respectively
+* **image_t.pgm, image_s.pgm, image_c.pgm** - images in XY, YZ and XZ cuts, respectively (not present)
