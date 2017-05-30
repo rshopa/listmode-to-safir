@@ -14,16 +14,16 @@ $ mkdir -p build
 $ cd build
 $ cmake ../
 $ make
+```
+
+run this outside this shell (inside src directory)
+```
 $ export PATH=$PWD:$PATH
 ```
-This will compile two bash executables:
-* **GenerateCrystalMapJPET** – generates file for mapping Cartesian coordinates to IDs of rings and detectors according to scanner geometry.
-* **ConvertToMUPET** – converts ASCII list mode data from GATE simulation into MUPET binary format (with big endian order).
+The executables are (not tested yet):
 
-#### Example of usage 
-(requires **JPETGeometry.par** – file containing J-PET geometry parameters.):
-```
-$ cd ../../input
-$ GenerateCrystalMapJPET -p JPETGeometry.par -o ../crystal_map_jpet.txt
-$ ConvertToMUPET -i PSF_384strips_x10_y0_z0 -p JPETGeometry.par -o ../output_x10y0z0.clm.safir
-```
+* GenerateCrystalMapJPET
+* ConvertToMUPET
+* GenerateBlurredMUPET
+
+The latter should presumably create parameters file from the very name of the datafile, adding three different new files for three photomultipliers (different smearing of the data).
