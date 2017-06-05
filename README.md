@@ -7,7 +7,12 @@ This implementation concerns data, simulated in [GATE](http://www.opengatecollab
 * [SAFIR](http://stir.sourceforge.net/MIC2015UsersMeeting/STIR_UM2015_Fischer_SAFIRInputFileFormat.pdf "PowerPoint Presentation"), build with STIR 3.0 (but already integrated with developers’ version, so no need to install).
 
 
-#### Simple build:
+### Easy installation:
+```
+source install.sh
+```
+
+#### Step-by-step build (use if easy install fails):
 ```
 $ cd /directory-with-repository-files/src/
 $ mkdir -p build
