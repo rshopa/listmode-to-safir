@@ -4,5 +4,7 @@ mkdir build
 cd build
 cmake ../
 make
-cd ..
+cd ../../
 export PATH=$PWD:$PATH
+echo "export PATH=$PWD:$PATH" >> ~/.profile
+

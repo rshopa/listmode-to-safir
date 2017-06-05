@@ -2,6 +2,7 @@
 #AUTHOR="RAFAL MASELEK"
 #EMAIL="rafal.maselek@ncbj.gov.pl"
 
+#Roman Shopa's script
 ./get_files.sh
 
 echo $'\n======================'
@@ -11,7 +12,7 @@ INPUT_LIST=$(ls -t -U | grep "^SAFIR_D")
 echo $INPUT_LIST
 for FOLDER in $INPUT_LIST
 do
-  cd $FOLDER
+ cd $FOLDER
  cd ./PM
   echo "CREATING PROJ DATA IN $PWD"
   lm_to_projdata lm_to_projdata.par
@@ -27,11 +28,14 @@ do
   cp ../../FBP3DRP.par .
   FBP3DRP ./FBP3DRP.par
   cd ..
-cd ./WL
+ cd ./WL
   echo "CREATING PROJ DATA IN $PWD"
   lm_to_projdata lm_to_projdata.par
   echo "PERFORMING RECONSTRUCTION USING FBP3DRP in $PWD"  
   cp ../../FBP3DRP.par .
   FBP3DRP ./FBP3DRP.par
-  cd ../../
+ cd ../../
 done
+
+echo $'\n:::::: RECONSTRUCTION ENDED ::::::'
+

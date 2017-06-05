@@ -32,6 +32,7 @@ do
     PM_LIST=$(ls -t -U | grep -P "_[dD]")
     for pm in $PM_LIST
     do
+    
       PM=$(echo $pm | awk '{print substr($0,0,3)}')
       # calculate Depth of interaction (DOI)
       if [[ $PM = 'SI_' ]]
@@ -84,14 +85,14 @@ do
       cp $'../templates/'$SINO_TEMP $PM$'/template_sino.hs'
       sed -i "31s/:=.*/:= $DOI/" $PM$'/template_sino.hs'
       touch $PM$'/template_sino.s'
-      # # files of parameters
-      cp $'../listmode_input_JPET_SAFIR.par' $PM
+
       cp $'../lm_to_projdata.par' $PM
       # cd $PM
       if echo $pm | grep -P 'clm.safir'
       then
-        cd $PM
-        sed -i "2s/:=.*/:= $pm/" listmode_input_JPET_SAFIR.par
+	cp $'../listmode_input_JPET_SAFIR.par' $PM        
+	cd $PM
+	 sed -i "2s/:=.*/:= $pm/" listmode_input_JPET_SAFIR.par	 
         cd ..
       fi
     done
