@@ -1,8 +1,0 @@
-Scanner parameters :=
-	Radius (mm) := 435.3
-	Length (mm) := 200
-	Rings := 53
-	Detectors := 668
-	Strip width, tangential (mm) := 4
-	Strip width, radial (mm) := 20
-END Scanner parameters :=
