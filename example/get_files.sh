@@ -1,3 +1,4 @@
+#!/bin/bash
 echo $'\n======================'
 echo $'--- PREPARING DATA ---'
 echo $'Current directory: \n'$PWD
@@ -80,7 +81,7 @@ do
         fi
       fi
 
-      cp $'../'$SINO_TEMP $PM$'/template_sino.hs'
+      cp $'../templates/'$SINO_TEMP $PM$'/template_sino.hs'
       sed -i "31s/:=.*/:= $DOI/" $PM$'/template_sino.hs'
       touch $PM$'/template_sino.s'
       # # files of parameters
