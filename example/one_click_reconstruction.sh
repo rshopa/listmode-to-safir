@@ -13,7 +13,7 @@ echo $INPUT_LIST
 for FOLDER in $INPUT_LIST
 do
  cd $FOLDER
- cd ./PM
+ cd ./PM?
   echo "CREATING PROJ DATA IN $PWD"
   lm_to_projdata lm_to_projdata.par
   echo "PERFORMING RECONSTRUCTION USING FBP3DRP in $PWD"  
@@ -28,7 +28,7 @@ do
   cp ../../FBP3DRP.par .
   FBP3DRP ./FBP3DRP.par
   cd ..
- cd ./WL
+ cd ./WL?
   echo "CREATING PROJ DATA IN $PWD"
   lm_to_projdata lm_to_projdata.par
   echo "PERFORMING RECONSTRUCTION USING FBP3DRP in $PWD"  

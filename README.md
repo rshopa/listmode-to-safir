@@ -25,7 +25,10 @@ run this outside this shell (inside src directory)
 ```
 $ export PATH=$PWD:$PATH
 ```
-The executables are (not tested yet):
+
+### To run scripts in simple mode just copy input files to working_dir/INPUT_DATA/ and run working_dir/one_click_reconstruction.sh
+
+### The executables are (not tested yet):
 
 * GenerateCrystalMapJPET
 * ConvertToMUPET

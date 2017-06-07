@@ -5,6 +5,6 @@ cd build
 cmake ../
 make
 cd ../../
-export PATH=$PWD:$PATH
-echo "export PATH=$PWD:$PATH" >> ~/.profile
+export PATH=$PWD/src/build:$PATH
+echo "export PATH=$PWD/src/build:$PATH" >> ~/.profile
 

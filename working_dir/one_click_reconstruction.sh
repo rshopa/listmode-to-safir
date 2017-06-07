@@ -8,13 +8,13 @@
 echo $'\n======================'
 echo $'--- PERFORMING ONE CLICK RECONSTRUCTION ---'
 echo $'Current directory: \n'$PWD
-cd OUTPU_DATA
+cd OUTPUT_DATA
 INPUT_LIST=$(ls -t -U | grep "^SAFIR_D")
 echo $INPUT_LIST
 for FOLDER in $INPUT_LIST
 do
  cd $FOLDER
- cd ./PM
+ cd ./PM?
   echo "CREATING PROJ DATA IN $PWD"
   lm_to_projdata lm_to_projdata.par
   echo "PERFORMING RECONSTRUCTION USING FBP3DRP in $PWD"  
@@ -29,14 +29,15 @@ do
   cp ../../../FBP3DRP.par .
   FBP3DRP ./FBP3DRP.par
   cd ..
- cd ./WL
+ cd ./WL?
   echo "CREATING PROJ DATA IN $PWD"
   lm_to_projdata lm_to_projdata.par
   echo "PERFORMING RECONSTRUCTION USING FBP3DRP in $PWD"  
   cp ../../../FBP3DRP.par .
   FBP3DRP ./FBP3DRP.par
- cd ../../../
+ cd ../../
 done
+cd ..
 
 echo $'\n:::::: RECONSTRUCTION ENDED ::::::'
 

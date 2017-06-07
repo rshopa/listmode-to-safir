@@ -53,7 +53,9 @@ public:
     void calibrate(const float& PETRadius,
                    const float& PETLength,
                    const unsigned& PETNrings,
-                   const unsigned& PETNdetectors);
+                   const unsigned& PETNdetectors,
+                   const float& PETWidth,
+                   const float& PETHeight);
 
 private:    
     unsigned m_Ring, m_Det;
