@@ -88,7 +88,7 @@ void JPETHit::calibrate(const float& PETRadius,
     // first validate x^2+y^2=R^2 (with the precision of 10.5 mm)
     assert(std::abs(PETRadius -
                     sqrt(std::abs(pow(m_Coord[0], 2.)
-                         + pow(m_Coord[1], 2.)))) <= PETHeight+0.5);
+                         + pow(m_Coord[1], 2.)))) <= PETHeight/2+0.5);
     float* p_ang = new float;                                          // temporary pointer
     *p_ang = get_angle(m_Coord[0], m_Coord[1]);
     m_Det = unsigned(int(*p_ang == 0) +
@@ -162,14 +162,14 @@ void JPETEvent::calibrate(std::unordered_map<std::string,
                      params["LENGTH"],
                      params["RINGS"],
                      params["DETECTORS"],
-                     params["WIDTH"],
-                     params["HEIGHT"]);
+                     params["STRIP_WIDTH"],
+                     params["STRIP_HEIGHT"]);
     m_Hit2.calibrate(params["RADIUS"],
                      params["LENGTH"],
                      params["RINGS"],
                      params["DETECTORS"],
-                     params["WIDTH"],
-                     params["HEIGHT"]);
+                     params["STRIP_WIDTH"],
+                     params["STRIP_HEIGHT"]);
     m_Calibrated = true;
 }
 
