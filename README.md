@@ -32,9 +32,9 @@ $ GenerateCrystalMapJPET -p parameters_file.par -o crystal_map_file.txt
 $ ConvertToMUPET -i input_file -p parameters_file.par -o output_file.clm.safir
 $ GenerateBlurredMUPET -i input_file [-p parameters_file.par]
 ```
-Please, refer to the [SAFIR example](https://github.com/UCL/STIR/tree/master/examples/SAFIR-listmode-virtual-scanner "example") for further instructions.
+Please, refer to [SAFIR example](https://github.com/UCL/STIR/tree/master/examples/SAFIR-listmode-virtual-scanner "example") for further instructions.
 
-For the latter executable **GenerateBlurredMUPET**, it is optional to set geometry file with -p key. If not given, the script would try to generate .par file by parsing the very name of the input (for example, "D85_1lay_L020_4mm_10_00_07"). But even if the name could not be parsed, the program would search for the default parameters file "JPETGeometry.par" as the last possible case.
+For the latter executable **GenerateBlurredMUPET**, it is optional to set geometry file with -p key. If not given, the script would try to generate .par file by parsing the very name of the input (for example, "D85_1lay_L020_4mm_10_00_07"). But even if the name could not be parsed, the program would search for the default parameters file "JPETGeometry.par" as the last possible option.
 
 Consequently, **GenerateBlurredMUPET** would add new files, corresponding to three photomultipliers that reflect different smearing of the data, in both listmode and SAFIR formats.
 
