@@ -1,4 +1,4 @@
-/*! JPETHitEvent.h
+/*! JPETHitEvent.cxx
 * Classes for the transformation of event list into MUPET
 * record utilizing SAFIR module
 * Note: for unordered_map, use g++ file_name.cxx -std=c++11
@@ -10,7 +10,7 @@
 #include <vector>
 #include <unordered_map>
 #include <cmath>    // abs, pow
-#include <assert.h>
+//#include <assert.h>
 #include "../include/CListEventMUPET_simple.h"
 #include "../include/JPETHitEvent.h"
 
@@ -42,6 +42,11 @@ JPETHit::JPETHit(const float& X,
       m_Coord(construct_cartesian(X,Y,Z)) {}
 JPETHit::~JPETHit(){}
 
+// Returns calibration value
+bool JPETHit::is_calibrated() {
+    return m_Calibrated;
+}
+
 // Compares if both hits contain time parameters or vice-versa
 bool JPETHit::compare_TOF(const JPETHit& outerHit){
     return m_isTOF == outerHit.m_isTOF;
@@ -52,25 +57,25 @@ bool JPETHit::flag_TOF(const JPETHit& outerHit){
     return m_isTOF && outerHit.m_isTOF;
 }
 
-// Returns one given parameter
-template <class ReturnClass>
-ReturnClass JPETHit::get_value(Params parameter){
-    assert(m_Calibrated);            // assert if false (calibration is essential)
-    switch (parameter) {
-        case Ring: return m_Ring;
-        case Detector: return m_Det;
-        case TimeOfHit: {
-            if(!m_isTOF) std::cout << "WARNING: TOF is not set (default is 0.0 *s)!" << std::endl;
-            return m_Time;
-        }
-    }
-    // Time of hit is the default return (unused)
-    return m_Time;
-}
+//// Returns one given parameter (presumably deprecated)
+//template <class ReturnClass>
+//ReturnClass JPETHit::get_value(Params parameter){
+//    assert(m_Calibrated);            // assert if false (calibration is essential)
+//    switch (parameter) {
+//        case Ring: return m_Ring;
+//        case Detector: return m_Det;
+//        case TimeOfHit: {
+//            if(!m_isTOF) std::cout << "WARNING: TOF is not set (default is 0.0 *s)!" << std::endl;
+//            return m_Time;
+//        }
+//    }
+//    // Time of hit is the default return (unused)
+//    return m_Time;
+//}
 
 // Returns Ring and Detector indices in STL vector
 std::vector<unsigned> JPETHit::get_position(){
-    assert(m_Calibrated);           // assert if false (calibration is essential)
+//    assert(m_Calibrated);           // assert if false (calibration is essential)
     std::vector<unsigned> vec;
     vec.push_back(m_Ring);
     vec.push_back(m_Det);
@@ -79,28 +84,46 @@ std::vector<unsigned> JPETHit::get_position(){
 
 // Assigns proper indices to Ring and Detector using calibration parameters
 // Sets Ring and Detector values with flag m_Calibrated = true
-void JPETHit::calibrate(const float& PETRadius,
-               const float& PETLength,
-               const unsigned& PETNrings,
-               const unsigned& PETNdetectors){
-    // first validate x^2+y^2=R^2 (with the precision of 10.5 mm)
-    assert(std::abs(PETRadius -
-                    sqrt(std::abs(pow(m_Coord[0], 2.)
-                         + pow(m_Coord[1], 2.)))) <= 10.5);
-    float* p_ang = new float;                                          // temporary pointer
-    *p_ang = get_angle(m_Coord[0], m_Coord[1]);
-    m_Det = unsigned(int(*p_ang == 0) +
-                     ceilf(PETNdetectors*(*p_ang)/(2*PI))-1);          // exception for 0
-    int temp_Number = int(m_Coord[2] == 0) +
-                      ceilf(PETNrings*float(m_Coord[2])/PETLength)-1; // exception for 0
-    // Exceptions
-    if(temp_Number < 0) m_Ring = 0;
-    else if(temp_Number >= int(PETNrings)) m_Ring = PETNrings-1;
-    else m_Ring = unsigned(temp_Number);
+// coerceEdges: if true, all hits out of scanner will be coerced
+// to edges (otherwise not calibrated at all)
+void JPETHit::calibrate(std::unordered_map<std::__cxx11::string,
+                                           float> &params,
+                        const bool& coerceEdges) {
+    if(m_Calibrated) return; // if calibrated, pass
+    bool insideStripRadial,
+         insideStripLongitudinal; // if inside scintillator strip
+    // validate x^2+y^2=R^2 with the precision of strip height/2 + .5 mm
+    insideStripRadial = std::abs(params["RADIUS"] -
+                                 sqrt(std::abs(pow(m_Coord[0], 2.) +
+                                      pow(m_Coord[1], 2.))))
+                        <= (params["STRIP_HEIGHT"]/2. + .5);
 
-    m_Calibrated = true;
-    delete p_ang;                                                      // unused anymore
+    // DETECTOR INDEX m_Det:
+    float angle = get_angle(m_Coord[0], m_Coord[1]);
+    m_Det = unsigned(int(angle == 0) +
+                     ceilf(params["DETECTORS"]*(angle)/(2*PI))-1);
+    // Temporary value for Ring index (type int used to check
+    // out of boundaries, impossible for unsigned)
+    int tempRingNumber = int(m_Coord[2] == 0) +
+                      ceilf(params["RINGS"] *
+                        float(m_Coord[2])/params["LENGTH"])-1;
+
+    // RING INDEX m_Ring (first assign temporary value):
+    m_Ring = unsigned(tempRingNumber);
+    // For coerceEdges flag (coerce Z to be inside scanner)
+    if(coerceEdges){
+        insideStripLongitudinal = true;  // because coerced anyway
+        if(tempRingNumber < 0) m_Ring = 0;
+        else if(tempRingNumber >= int(params["RINGS"]))
+                        m_Ring = params["RINGS"]-1;
+    } else {
+        insideStripLongitudinal = (tempRingNumber >= 0)
+                && (tempRingNumber < int(params["RINGS"]));
+    }
+    // If inside strip - successfully calibrated
+    m_Calibrated = insideStripRadial && insideStripLongitudinal;
 }
+
 
 // Creates STL vector with Cartesian input coordinates
 std::vector<float> JPETHit::construct_cartesian(const float & x,
@@ -148,6 +171,11 @@ JPETEvent::JPETEvent(std::vector<float>& hit1_coords,
 // Destructor
 JPETEvent::~JPETEvent(){}
 
+// Returns calibration flag
+bool JPETEvent::is_calibrated() {
+    return m_Calibrated;
+}
+
 // TOF flag - might be deprecated or in TODO list
 bool JPETEvent::check_TOF(){
     return m_flagTOF;
@@ -155,28 +183,24 @@ bool JPETEvent::check_TOF(){
 
 // Calibrates both hits and sets flag m_Calibrated to 1
 void JPETEvent::calibrate(std::unordered_map<std::string,
-                                             float>& params) {
-    m_Hit1.calibrate(params["RADIUS"],
-                     params["LENGTH"],
-                     params["RINGS"],
-                     params["DETECTORS"]);
-    m_Hit2.calibrate(params["RADIUS"],
-                     params["LENGTH"],
-                     params["RINGS"],
-                     params["DETECTORS"]);
-    m_Calibrated = true;
+                                             float>& params,
+                          const bool& coerceEdges) {
+    if(m_Calibrated) return; // if calibrated, pass
+    m_Hit1.calibrate(params,coerceEdges);
+    m_Hit2.calibrate(params,coerceEdges);
+    m_Calibrated = m_Hit1.is_calibrated() && m_Hit2.is_calibrated();
 }
 
 // Returns MUPET objest
 CListRecordMUPET_simple JPETEvent::to_MUPET(){
-    assert(m_Calibrated);               // Must be calibrated in order to transform data
+//    assert(m_Calibrated);               // Must be calibrated in order to transform data
     CListRecordMUPET_simple tmprecord;
     tmprecord.raw = 0;
     tmprecord.event_data.ringA = m_Hit1.get_position()[0];
     tmprecord.event_data.ringB = m_Hit2.get_position()[0];
     tmprecord.event_data.detA =  m_Hit1.get_position()[1];
     tmprecord.event_data.detB = m_Hit2.get_position()[1];
-    tmprecord.event_data.layerA = 0;
+    tmprecord.event_data.layerA =   0;
     tmprecord.event_data.layerB = 0;
     tmprecord.event_data.reserved = 0x0;
     tmprecord.event_data.type = 0x0;

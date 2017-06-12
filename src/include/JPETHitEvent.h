@@ -20,7 +20,7 @@
 //! into indices for Ring and Detector using J-PET geometry (calibration procedure)
 class JPETHit {
 public:
-    enum Params {Ring ,Detector, TimeOfHit}; // parameters of hit
+//    enum Params {Ring ,Detector, TimeOfHit}; // parameters of hit
 
     //! Constructors and destructor
     //! X,Y,Z -- Cartesian coordinates in mm
@@ -35,32 +35,35 @@ public:
             const float& Z);
     ~JPETHit();
 
+    //! Returns calibration value
+    bool is_calibrated();
+
     //! Compares if both hits contain time parameters or vice-versa
     bool compare_TOF(const JPETHit& outerHit);
 
     //! Returns TOF flag for external use (1 - with TOF, 0 - without)
     bool flag_TOF(const JPETHit& outerHit);
 
-    //! Returns one given parameter
-    template <class ReturnClass>
-    ReturnClass get_value(Params parameter);
+//    //! Returns one given parameter
+//    //! (!!!presumably deprecated!!!)
+//    template <class ReturnClass>
+//    ReturnClass get_value(Params parameter);
 
     //! Returns Ring and Detector indices in STL vector
     std::vector<unsigned> get_position();
 
     //! Assigns proper indices to Ring and Detector using calibration parameters
     //! Sets Ring and Detector values with flag m_Calibrated = true
-    void calibrate(const float& PETRadius,
-                   const float& PETLength,
-                   const unsigned& PETNrings,
-                   const unsigned& PETNdetectors);
+    //! coerceEdges: if true, all hits out of scanner will be set to edges
+    void calibrate(std::unordered_map<std::string,float>& params,
+                   const bool& coerceEdges = false);
 
 private:    
     unsigned m_Ring, m_Det;
     bool m_Calibrated;
     const float m_Time;
-    const bool m_isTOF;                    // flag for TOF consideration
-    const std::vector<float> m_Coord;
+    const bool m_isTOF;                 // flag for TOF consideration
+    const std::vector<float> m_Coord;   // Cartesian triple of coordinates
 
     //! Creates STL vector with Cartesian input coordinates
     std::vector<float> construct_cartesian(const float & x,
@@ -87,12 +90,15 @@ public:
     //! Destructor
     ~JPETEvent();
 
+    //! Returns calibration flag
+    bool is_calibrated();
+
     //! TOF flag
     bool check_TOF();
 
     //! Calibrates both hits and sets flag m_Calibrated to 1
-    void calibrate(std::unordered_map<std::string,
-                                      float>& params);
+    void calibrate(std::unordered_map<std::string,float>& params,
+                   const bool& coerceEdges = false);
 
     //! Returns MUPET objest
     CListRecordMUPET_simple to_MUPET();
@@ -101,6 +107,6 @@ private:
     bool m_flagTOF, m_Calibrated;
 };
 
-#include "../MUPET/JPETHitEvent.cxx" // for templates
+//#include "JPETHitEvent.cxx" // for templates
 
 #endif

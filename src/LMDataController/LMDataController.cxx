@@ -1,4 +1,4 @@
-/*! LMDataController.h
+/*! LMDataController.cxx (implementation)
  * List mode data controller for import, export and transform data.
  * A function for generating the .par file with JPET geometry
  * is implemented
@@ -31,6 +31,7 @@ LMDataController::LMDataController(const char* path_to_file)
     // cut pre-path and get number of rows
     std::istringstream path(path_to_file);
     path >> m_file_name;
+    // private functions for private variables:
     cut_pre_path();
     get_number_of_rows();
 
@@ -59,7 +60,12 @@ LMDataController::~LMDataController(){}
 // Getter for file name (not the full path)
 std::string LMDataController::get_file_name(){
     return m_file_name;
-};
+}
+
+// Returns bool if the file name could be parsed
+bool LMDataController::is_geometry_parsed_from_filename(){
+    return m_params_parsed;
+}
 
 // Saves file with geometry parameters
 void LMDataController::create_parameters_file
@@ -117,6 +123,7 @@ void LMDataController::create_parameters_file
 // Imports geometry from the geometry parameters file
 void LMDataController::import_geometry(const char* geometry_file){
     // First, import parameters from outer file
+    std::cout << "Importing parameters from " << geometry_file << "...";
     JPETParameters JPET_params;
     JPET_params.import_parameters(geometry_file);
     std::unordered_map<std::string, float> params_hash =
@@ -126,12 +133,15 @@ void LMDataController::import_geometry(const char* geometry_file){
                        s_diameter,
                        s_width;
     s_length << params_hash["LENGTH"]/10.;
-    // Complex formula (distinct radius to simple key, i.e. 75, 85, 95)
+    // Complex formula for s_diameter
+    // (distinct radius to simple key, i.e. 75, 85, 95)
     s_diameter << round(params_hash["RADIUS"]*2/10.) - 2;
     s_width << params_hash["STRIP_WIDTH"];
     m_length_key = s_length.str();
     m_diameter_key = s_diameter.str();
     m_width_key = s_width.str();
+    std::cout << " Done!" << std::endl;
+    m_params_parsed = true;  // flag this to mark that parameters are set
 }
 
 // Returns DOI vector (in order {mean, median})
@@ -178,6 +188,8 @@ void LMDataController::export_blured(const PhotoMultiplier &pm){
                PET_edge_radius;  // Tomograph radius
         // in & out streams
         std::ifstream in_file(m_full_path_to_file);
+        in_file.clear();
+        in_file.seekg(0, std::ios::beg);
         std::ofstream out_file;
         std::string PM_name,        // photomultiplier
                     one_row;        // iteration row
@@ -258,13 +270,12 @@ void LMDataController::export_blured(const PhotoMultiplier &pm){
         };
         m_DOI_averages[PM_name] = DOI_output;
     } else {
-        std::cout << "ERROR: could not blur the data.\n"
-                  << "Please import parameters from th geometry"
-                  << " parameters .par file." << std::endl;
+        std::cout << "ERROR: could not blur the data (Geometry is missing).\n"
+                  << "Please import parameters from .par file." << std::endl;
     }
 }
 
-// Eliminates slashes from filename path (only name remains
+// Eliminates slashes from filename path (only name remains)
 void LMDataController::cut_pre_path(){
     std::string delimiter = "/";
     size_t slash_pos;
@@ -283,7 +294,7 @@ bool LMDataController::is_formatted(){
         return false;
     }
     return m_params_parsed &&
-           (std::stof(m_diameter_key) == DIAMETER);
+           (std::stof(m_diameter_key) == DIAMETER); // in .inl file
     // TODO: other validations
 }
 

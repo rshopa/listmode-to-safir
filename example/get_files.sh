@@ -94,31 +94,7 @@ do
         cd ..
       fi
     done
-    # echo $WIDTH
-    # echo $LENGTH
-    # if there is a prefix with PM type
-    # if echo $x | grep -q '_D85'
-    # then
-    #   PM=$(echo $x | awk '{print substr($0,0,3)}')
-    # else
-    #
-      # cd $DIR
-    # fi
-    # echo $PM
-    # if [[ $PM = 'WLS' ]]
-    # then
-    #   LINE=$(sed '7!d' DOI_parameters.par)
-    # else
-    #   if [[ $PM = "PMT" ]]
-    #   then
-    #     LINE=$(sed '3!d' DOI_parameters.par)
-    #   else
-    #     LINE=$(sed '5!d' DOI_parameters.par)
-    #   fi
-    # fi
-    # DOI=$(echo $LINE | awk '{ print $3 }')
-    # echo $DOI
-      # touch $(echo $x | awk '{print substr($0,0,3)}')$'template'
+
     cd ..
     echo $'\n:::::: CONVERSION ENDED ::::::'
   fi

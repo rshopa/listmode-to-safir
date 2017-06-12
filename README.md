@@ -20,10 +20,24 @@ run this outside this shell (inside src directory)
 ```
 $ export PATH=$PWD:$PATH
 ```
-The executables are (not tested yet):
+The executables are (partially tested):
 
 * GenerateCrystalMapJPET
 * ConvertToMUPET
 * GenerateBlurredMUPET
 
-The latter should presumably create parameters file from the very name of the datafile, adding three different new files for three photomultipliers (different smearing of the data).
+Usage examples:
+```
+$ GenerateCrystalMapJPET -p parameters_file.par -o crystal_map_file.txt
+$ ConvertToMUPET -i input_file -p parameters_file.par -o output_file.clm.safir
+$ GenerateBlurredMUPET -i input_file [-p parameters_file.par]
+```
+Please, refer to the [SAFIR example](https://github.com/UCL/STIR/tree/master/examples/SAFIR-listmode-virtual-scanner "example") for further instructions.
+
+For the latter executable **GenerateBlurredMUPET**, it is optional to set geometry file with -p key. If not given, the script would try to generate .par file by parsing the very name of the input (for example, "D85_1lay_L020_4mm_10_00_07"). But even if the name could not be parsed, the program would search for the default parameters file "JPETGeometry.par" as the last possible case.
+
+Consequently, **GenerateBlurredMUPET** would add new files, corresponding to three photomultipliers that reflect different smearing of the data, in both listmode and SAFIR formats.
+
+**Note!** At the moment, the "smeared" listmode data comprise only pairs of Cartesian coordinates with times of hits, cutting out the rest (energy, type of coincidence etc).
+
+**Note!** Smearing hit positions along axial (Z) direction would probably leave some events outside the scanner. By default, such events are thrown away, reducing their total number. Alternatively, hit positions could be coerced to the edges of the scanner (setting *coerceEdges* to *true* in JPETHit::calibrate() and JPETEvent::calibrate() functions).

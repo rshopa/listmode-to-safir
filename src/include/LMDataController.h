@@ -28,6 +28,9 @@ public:
     //! Getter for file name (not the full path)
     std::string get_file_name();
 
+    //! Returns bool if the file name could be parsed
+    bool is_geometry_parsed_from_filename();
+
     //! Saves file with geometry parameters
     void create_parameters_file(const char* output_file_name);
 

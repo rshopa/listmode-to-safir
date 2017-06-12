@@ -23,8 +23,11 @@ list(APPEND MUPET_SOURCES
 #	"${HEADERS}/JPETParameters.h"
 	"${JPET_PARAMETERS}/JPETParameters.cxx"
 #	"${HEADERS}/JPETHitEvent.h"
+	"${MUPET}/JPETHitEvent.cxx"
 #	"${HEADERS}/CListEventMUPET_simple.h"
 	"${MUPET}/ConvertToMUPET.cxx"
+
+#	"${HEADERS}/ConvertToSAFIR.cxx" # treat as header and do not include!!!
 )
 list(APPEND DATA_CONTROLLER_SOURCES
 #	"${HEADERS}/JPETParameters.h"
@@ -33,9 +36,12 @@ list(APPEND DATA_CONTROLLER_SOURCES
 	"${CRYSTAL_MAP}/CrystalMapJPET.cxx"
 #	"${HEADERS}/CListEventMUPET_simple.h"
 #	"${HEADERS}/JPETHitEvent.h"
+	"${MUPET}/JPETHitEvent.cxx"
 #	"${HEADERS}/LMDataController.h"
 	"${LM_DATA_CONTROLLER}/LMDataController.cxx"
 	"${LM_DATA_CONTROLLER}/GenerateBlurredMUPET.cxx"
+
+#	"${HEADERS}/ConvertToSAFIR.cxx" # treat as header and do not include!!!
 )
 
 #MESSAGE( STATUS "PATH: " ${CrystalMap_SOURCES})
