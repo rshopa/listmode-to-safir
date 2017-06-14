@@ -16,7 +16,7 @@ $ cmake ../
 $ make
 ```
 
-run this outside this shell (inside src directory)
+run this outside this shell (inside build directory)
 ```
 $ export PATH=$PWD:$PATH
 ```
