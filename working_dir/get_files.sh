@@ -17,9 +17,11 @@ do
     # make directory and cd to it
     cd ..
     mkdir OUTPUT_DATA
+    chmod 777 OUTPUT_DATA
     cd OUTPUT_DATA
     DIR=$'SAFIR_'$(echo $x)
     mkdir -p $DIR
+    chmod 777 $DIR
     cd $DIR
     echo $'\n:::::::::::::::::::::::::::::::::::'
     echo $'CONVERTING TO SAFIR: '
