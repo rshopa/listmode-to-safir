@@ -2,8 +2,9 @@
 echo $'\n======================'
 echo $'--- PREPARING DATA ---'
 echo $'Current directory: \n'$PWD
+cd INPUT_DATA
 INPUT_LIST=$(ls -t -U | grep "D85")
-# echo $INPUT_LIST
+#echo $INPUT_LIST
 
 for x in $INPUT_LIST
 do
@@ -14,6 +15,9 @@ do
     LENGTH=$(echo $x | grep -o -P 'L.{0,3}')
 
     # make directory and cd to it
+    cd ..
+    mkdir OUTPUT_DATA
+    cd OUTPUT_DATA
     DIR=$'SAFIR_'$(echo $x)
     mkdir -p $DIR
     cd $DIR
@@ -26,7 +30,7 @@ do
     # Must be added to PATH (export PATH=$PWD$'/build':$PATH)
     # It produces 3 files for different photomultipliers (PM),
     # with conversion to SAFIR binaty (.clm.safir)
-    GenerateBlurredMUPET -i $'../'$x
+    GenerateBlurredMUPET -i $'../../INPUT_DATA/'$x
 
     # list of files with PM
     PM_LIST=$(ls -t -U | grep -P "_[dD]")
@@ -37,6 +41,7 @@ do
       if [[ $PM = 'SI_' ]]
       then
         PM=SI
+ 	#echo $PWD
         LINE=$(sed '5!d' DOI_parameters.par)
       else
         if [[ $PM = 'WLS' ]]
@@ -81,21 +86,20 @@ do
         fi
       fi
 
-      cp $'../templates/'$SINO_TEMP $PM$'/template_sino.hs'
+      cp $'../../templates/'$SINO_TEMP $PM$'/template_sino.hs'
       sed -i "31s/:=.*/:= $DOI/" $PM$'/template_sino.hs'
       touch $PM$'/template_sino.s'
-      # # files of parameters
-      cp $'../lm_to_projdata.par' $PM
+
+      cp $'../../lm_to_projdata.par' $PM
       # cd $PM
       if echo $pm | grep -P 'clm.safir'
       then
-      cp $'../listmode_input_JPET_SAFIR.par' $PM
-        cd $PM
-        sed -i "2s/:=.*/:= $pm/" listmode_input_JPET_SAFIR.par
+	cp $'../../listmode_input_JPET_SAFIR.par' $PM        
+	cd $PM
+	 sed -i "2s/:=.*/:= $pm/" listmode_input_JPET_SAFIR.par	 
         cd ..
       fi
     done
-
     cd ..
     echo $'\n:::::: CONVERSION ENDED ::::::'
   fi
