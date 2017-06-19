@@ -7,7 +7,28 @@ This implementation concerns data, simulated in [GATE](http://www.opengatecollab
 * [SAFIR](http://stir.sourceforge.net/MIC2015UsersMeeting/STIR_UM2015_Fischer_SAFIRInputFileFormat.pdf "PowerPoint Presentation"), build with STIR 3.0 (but already integrated with developers’ version, so no need to install).
 
 
-#### Simple build:
+### Easy installation:
+```
+$ source install.sh
+```
+
+### To load necessary paths to variables, do before every use:
+```
+$ source setup.sh
+```
+
+The file **setup.sh** will be created after running easy installation.
+
+### Easy use:
+
+Copy all data files to working_dir/INPUT_DATA and
+
+```
+$ cd working_dir
+$ ./one_click_reconstruction.sh
+```
+
+#### Step-by-step build (use if easy install fails)::
 ```
 $ cd /directory-with-repository-files/src/
 $ mkdir -p build
@@ -20,13 +41,15 @@ run this outside this shell (inside build directory)
 ```
 $ export PATH=$PWD:$PATH
 ```
+
+### Usage examples:
+
 The executables are (partially tested):
 
 * GenerateCrystalMapJPET
 * ConvertToMUPET
 * GenerateBlurredMUPET
 
-Usage examples:
 ```
 $ GenerateCrystalMapJPET -p parameters_file.par -o crystal_map_file.txt
 $ ConvertToMUPET -i input_file -p parameters_file.par -o output_file.clm.safir
