@@ -44,4 +44,4 @@ Next, a separate directory will be created for each PM (PMT, SI and WLS) with fi
 
 Finally, the script will convert list mode data, smeared for three PMs, into MUPET binaries (SAFIR format) with extension '*.clm.safir*', which will be moved to corresponding directories. Since MUPET is substantially smaller than ASCII, list mode files will be deleted.
 
-Please, refer to [SAFIR example](https://github.com/UCL/STIR/tree/master/examples/SAFIR-listmode-virtual-scanner "example in STIR repository") for exploring the further conversion procedure (SAFIR/MUPET to STIR/Interfile) and compulsory files needed for it.
+Please, refer to [SAFIR example](https://github.com/UCL/STIR/tree/master/examples/SAFIR-listmode-virtual-scanner "example in STIR repository") for exploring the further conversion procedure (SAFIR/MUPET to STIR/Interfile) and compulsory files needed for it. You might also check [instructions on J-PET Wiki](http://koza.if.uj.edu.pl/petwiki/index.php/STIR_%28Software_for_Tomographic_Image_Reconstruction%29#SAFIR_module "SAFIR usage"), if you have got an access.
