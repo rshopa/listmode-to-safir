@@ -46,11 +46,10 @@ do
         fi
       fi
       DOI=$(echo $LINE | awk '{ print $3 }')
-      echo $PM$' - '$DOI
+#      echo $PM$' - '$DOI
 
-      # Create directories for every PM and move files
+      # Create directories for every PM
       mkdir -p $PM
-      mv $pm $PM
 
       # Copies corresponding template sinogram
       if [[ $WIDTH = '4mm' ]]
@@ -86,15 +85,22 @@ do
       # # files of parameters
       cp $'../listmode_input_JPET_SAFIR.par' $PM
       cp $'../lm_to_projdata.par' $PM
-      # cd $PM
-      if echo $pm | grep -P 'clm.safir'
+      cp $'../FBP3DRP.par' $PM
+
+      # cd $PM and move or delete files
+      MATCH_PATTERN="*clm.safir"
+      if [[ $pm == $MATCH_PATTERN ]]
       then
+        # move .safir files to appropriate directory
+        mv $pm $PM
         cd $PM
         sed -i "2s/:=.*/:= $pm/" listmode_input_JPET_SAFIR.par
         cd ..
+      else
+        # deletes initial list mode files
+        rm $pm
       fi
     done
-
     cd ..
     echo $'\n:::::: CONVERSION ENDED ::::::'
   fi

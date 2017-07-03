@@ -1,3 +1,7 @@
+/*! LMDataController.h
+* unsigned map with JPET geometry parameters
+* author: Roman Shopa
+* Roman.Shopa@ncbj.gov.pl */
 #include <unordered_map>
 
 #define DIAMETER 85
@@ -43,7 +47,7 @@ inline NEMAGeometries PMBGeometries() {
                     {"LENGTH", {
                          {200., {{"RINGS", 53}}},
                          {500., {{"RINGS", 132}}},
-                         {1000., {{"RINGS", 264}}}
+                         {1000., {{"RINGS", 256}}} // 264 originally
                     }}
                 }
              },
@@ -64,7 +68,7 @@ inline NEMAGeometries PMBGeometries() {
                     {"LENGTH", {
                         {200., {{"RINGS", 53}}},
                         {500., {{"RINGS", 132}}},
-                        {1000., {{"RINGS", 264}}}
+                        {1000., {{"RINGS", 256}}} // 264 originally
                     }}
                 }
              },
@@ -85,7 +89,7 @@ inline NEMAGeometries PMBGeometries() {
                     {"LENGTH", {
                         {200., {{"RINGS", 53}}},
                         {500., {{"RINGS", 132}}},
-                        {1000., {{"RINGS", 264}}}
+                        {1000., {{"RINGS", 256}}} // 264 originally
                     }}
                 }
              }
