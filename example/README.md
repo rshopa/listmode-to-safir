@@ -31,7 +31,6 @@ $ export PATH=$PWD:$PATH
 ```
 $ ./get_files.sh | tee >(grep -v $'\r' > "shell_output.log")
 ```
-
 First of all, a separate directory will be created for each file with '*SAFIR_*' prefix prepended (for example, '*SAFIR_D85_1lay_L020_4mm_01_00_00_short/*' -- for '*D85_1lay_L020_4mm_01_00_00_short*').
 
 Next, three different Gaussian blurs had to be added to the initial axial (Z) and time variables, corresponding to smearing (error) in various models of photomultipliers (PM). The notation below would mean "SI" -- for silicon photomultiplier, "PMT" -- standard tube Hamamatsu-like one, "WLS" -- for [wavelength shifter](http://iopscience.iop.org/article/10.1088/0031-9155/53/7/002 "one of the articles"). This procedure is implemented in **GenerateBlurredMUPET** command (look for description [here](https://github.com/JPETTomography/listmode-to-safir)).
