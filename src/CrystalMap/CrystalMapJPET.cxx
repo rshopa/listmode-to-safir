@@ -1,3 +1,6 @@
+/*! Implementation for crystal map class (for SAFIR module)
+* author: Roman Shopa
+* Roman.Shopa@ncbj.gov.pl */
 #include <iostream>
 #include <sstream>      // std::ostringstream
 #include <fstream>      // std::ofstream

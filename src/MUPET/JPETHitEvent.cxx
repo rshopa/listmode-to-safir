@@ -86,7 +86,7 @@ std::vector<unsigned> JPETHit::get_position(){
 // Sets Ring and Detector values with flag m_Calibrated = true
 // coerceEdges: if true, all hits out of scanner will be coerced
 // to edges (otherwise not calibrated at all)
-void JPETHit::calibrate(std::unordered_map<std::__cxx11::string,
+void JPETHit::calibrate(std::unordered_map<std::string,    // std::__cxx11::string
                                            float> &params,
                         const bool& coerceEdges) {
     if(m_Calibrated) return; // if calibrated, pass

@@ -92,6 +92,7 @@ void convert_to_safir(const std::string& PM_type,
         std::cout << event_no << std::flush << "\r";
     }
 
+    std::cout << std::endl; // to prevent flush in log file
     std::cout << "Events exported: " << totalEvents << std::endl;
     std::cout << "Total number of lines in file: " << i
               << " (last line could have been empty)" << std::endl;
